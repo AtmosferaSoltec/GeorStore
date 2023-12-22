@@ -1,0 +1,312 @@
+<div class="pt-3 px-3">
+    <div class="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        <!-- Color -->
+        <div class="py-5 px-4 bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-row items-center justify-between mb-3">
+                <h5 class=" text-2xl font-semibold text-gray-800">
+                    Tabla de Color
+                </h5>
+
+                <button mat-mini-fab color="primary" matTooltip="Agregar Color" (click)="addColor()">
+                    <mat-icon class="mat-18">add</mat-icon>
+                </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nombre
+                        </th>
+                        <th scope="col" class="pr-6 py-3">
+                            Estado
+                        </th>
+                        <th scope="col" class="pr-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(colorService.isLoading()){
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            Cargando...
+                        </td>
+                    </tr>
+                    }@else {
+                    @for (item of colorService.listColor(); track $index) {
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900">
+                            {{item.nombre}}
+                        </th>
+                        <td class="px-6 py-2">
+                            {{item.estado}}
+                        </td>
+                        <td class="px-6 py-2">
+                            <button mat-icon-button (click)="setEstadoColor(item.id_color, item.estado)">
+                                @if(item?.estado == "S"){
+                                <mat-icon>delete</mat-icon>
+                                }@else if(item?.estado == "N") {
+                                <mat-icon>restore</mat-icon>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }@empty {
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            No hay datos
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Metodos de Pago -->
+        <div class="py-5 px-4 bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-row items-center justify-between mb-3">
+                <h5 class=" text-2xl font-semibold text-gray-800">
+                    Tabla de Metodos de Pago
+                </h5>
+
+                <button mat-mini-fab color="primary" matTooltip="Agregar Color" (click)="addMetodoPago()">
+                    <mat-icon class="mat-18">add</mat-icon>
+                </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nombre
+                        </th>
+                        <th scope="col" class="pr-6 py-3">
+                            Estado
+                        </th>
+                        <th scope="col" class="pr-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(metodoPagoService.isLoading()){
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            Cargando...
+                        </td>
+                    </tr>
+                    }@else {
+                    @for (item of metodoPagoService.listMetodoPago(); track $index) {
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900">
+                            {{item.nombre}}
+                        </th>
+                        <td class="px-6 py-2">
+                            {{item.estado}}
+                        </td>
+                        <td class="px-6 py-2">
+                            <button mat-icon-button (click)="setEstadoMetodoPago(item.id_metodo_pago, item.estado)">
+                                @if(item?.estado == "S"){
+                                <mat-icon>delete</mat-icon>
+                                }@else if(item?.estado == "N") {
+                                <mat-icon>restore</mat-icon>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }@empty {
+                    <tr class="bg-white border-b">
+
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            No hay datos
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Marcas -->
+        <div class="py-5 px-4 bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-row items-center justify-between mb-3">
+                <h5 class=" text-2xl font-semibold text-gray-800">
+                    Tabla de Marcas
+                </h5>
+
+                <button mat-mini-fab color="primary" matTooltip="Agregar Marca" (click)="addMarca()">
+                    <mat-icon class="mat-18">add</mat-icon>
+                </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nombre
+                        </th>
+                        <th scope="col" class="pr-6 py-3">
+                            Estado
+                        </th>
+                        <th scope="col" class="pr-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if(marcaService.isLoading()){
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            Cargando...
+                        </td>
+                    </tr>
+                    }@else {
+                    @for (item of marcaService.listMarca(); track $index) {
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900">
+                            {{item.nombre}}
+                        </th>
+                        <td class="px-6 py-2">
+                            {{item.estado}}
+                        </td>
+                        <td class="px-6 py-2">
+
+                            <button mat-icon-button (click)="setEstadoMarca(item.id_marca, item.estado)">
+                                @if(item?.estado == "S"){
+                                <mat-icon>delete</mat-icon>
+                                }@else if(item?.estado == "N") {
+                                <mat-icon>restore</mat-icon>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }@empty {
+                    <tr class="bg-white border-b">
+
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            No hay datos
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Tallas -->
+        <div class="py-5 px-4 bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-row items-center justify-between mb-3">
+                <h5 class=" text-2xl font-semibold text-gray-800">
+                    Tabla de Tallas
+                </h5>
+
+                <button mat-mini-fab color="primary" matTooltip="Agregar Talla" (click)="addTalla()">
+                    <mat-icon class="mat-18">add</mat-icon>
+                </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nombre
+                        </th>
+                        <th scope="col" class="pr-6 py-3">
+                            Estado
+                        </th>
+                        <th scope="col" class="pr-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(tallaService.isLoading()){
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            Cargando...
+                        </td>
+                    </tr>
+                    }@else {
+                    @for (item of tallaService.listTallas(); track $index) {
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900">
+                            {{item.nombre}}
+                        </th>
+                        <td class="px-6 py-2">
+                            {{item.estado}}
+                        </td>
+                        <td class="px-6 py-2">
+
+                            <button mat-icon-button (click)="setEstadoTalla(item.id_talla,item.estado)">
+                                @if(item?.estado == "S"){
+                                <mat-icon>delete</mat-icon>
+                                }@else if(item?.estado == "N") {
+                                <mat-icon>restore</mat-icon>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }@empty {
+                    <tr class="bg-white border-b">
+
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            No hay datos
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Categoria -->
+        <div class="py-5 px-4 bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-row items-center justify-between mb-3">
+                <h5 class=" text-2xl font-semibold text-gray-800">
+                    Tabla de Categorias
+                </h5>
+
+                <button mat-mini-fab color="primary" matTooltip="Agregar Talla" (click)="addCategoria()">
+                    <mat-icon class="mat-18">add</mat-icon>
+                </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nombre
+                        </th>
+                        <th scope="col" class="pr-6 py-3">
+                            Estado
+                        </th>
+                        <th scope="col" class="pr-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(categoriaService.isLoading()){
+                    <tr class="bg-white border-b">
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            Cargando...
+                        </td>
+                    </tr>
+                    }@else {
+                    @for (item of categoriaService.listCategoria(); track $index) {
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-2 font-medium text-gray-900">
+                            {{item.nombre}}
+                        </th>
+                        <td class="px-6 py-2">
+                            {{item.estado}}
+                        </td>
+                        <td class="px-6 py-2">
+
+                            <button mat-icon-button (click)="setEstadoCategoria(item.id_categoria,item.estado)">
+                                @if(item?.estado == "S"){
+                                <mat-icon>delete</mat-icon>
+                                }@else if(item?.estado == "N") {
+                                <mat-icon>restore</mat-icon>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }@empty {
+                    <tr class="bg-white border-b">
+
+                        <td colspan="3" class="px-6 py-2 text-center">
+                            No hay datos
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

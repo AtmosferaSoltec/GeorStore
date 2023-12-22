@@ -1,0 +1,37 @@
+<section class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
+            GeorStore
+        </a>
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Inicia sesíon en tu cuenta
+                </h1>
+                <form [formGroup]="formulario" (submit)="login()" class="space-y-4 md:space-y-6">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Usuario
+                        </label>
+                        <input type="text" formControlName="usuario"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Ingresa tu nombre de usuario" required="">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Contraseña
+                        </label>
+                        <input type="password" placeholder="••••••••" formControlName="pass"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    </div>
+                    <button type="submit"
+                        class="w-full text-white bg-p1-700 hover:bg-p1-100 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Ingresar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

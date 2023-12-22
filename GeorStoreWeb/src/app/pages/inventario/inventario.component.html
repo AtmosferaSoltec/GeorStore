@@ -1,0 +1,63 @@
+<div class="px-6">
+    <div class="flex flex-row justify-between items-center my-5">
+
+        <h1 class="text-2xl font-bold text-textos">Inventarios</h1>
+        <button mat-raised-button color="primary">Agregar</button>
+    </div>
+
+    <div class="rounded-xl overflow-hidden shadow-lg">
+        <table class="w-full text-sm text-start text-textos">
+            <thead class="text-sm bg-white text-textos uppercase border-b text-left">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Código</th>
+                    <th scope="col" class="px-6 py-3">Nombre</th>
+                    <th scope="col" class="px-6 py-3">Cant. Disponible</th>
+                    <th scope="col" class="px-6 py-3">Ultima Actualizacion</th>
+                    <th scope="col" class="px-6 py-3">Estado</th>
+                    <th scope="col" class="px-6 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(isLoading()){
+                <tr class="bg-white border-b">
+                    <td colspan="9" class="py-6">
+                        <div class="flex justify-center items-center">
+                            <div class="loader"></div>
+                        </div>
+                    </td>
+                </tr>
+                }@else {
+                @for (item of listInventarios(); track $index) {
+                <tr class="bg-white border-b">
+                    <td class="px-6 py-2">{{item.producto?.codigo || 'Sin Código'}}</td>
+                    <td class="px-6 py-2">{{item.producto?.nombre}}</td>
+                    <td class="px-6 py-2">S/{{item.cant_disponible | number}}</td>
+                    <td class="px-6 py-2">{{item.fecha_update | date:'dd/MM/yyyy'}}</td>
+                    <td class="px-6 py-2">
+                        <div class="flex flex-row items-center">
+                            <div [ngClass]="{'bg-green-500': item.estado === 'S', 'bg-red-500': item.estado === 'N'}"
+                                class="h-2.5 w-2.5 rounded-full me-2"></div>
+                            {{item.estado | mostrarEstado}}
+                        </div>
+                    </td>
+                    <td class="px-6 py-2">
+                        <button mat-icon-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr class="bg-white border-b">
+                    <td colspan="9" class="py-2">
+                        <div class="flex flew-row items-center justify-center">
+                            <mat-icon>hourglass_empty</mat-icon>
+                            Sin Datos
+                        </div>
+                    </td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

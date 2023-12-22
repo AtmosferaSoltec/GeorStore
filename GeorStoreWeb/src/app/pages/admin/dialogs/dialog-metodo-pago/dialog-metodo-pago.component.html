@@ -1,0 +1,19 @@
+<form class="px-6 py-4" [formGroup]="formulario" (submit)="guardar()">
+    <p class="text-xl font-medium mb-3" mat-dialog-title>Nuevo Metodo de Pago</p>
+    <mat-form-field class="w-full">
+        <mat-label>Nombre</mat-label>
+        <input matNativeControl="date" matInput placeholder="Ingresar nombre de metodo de pago" formControlName="nombre"
+            required>
+        @if (formulario.get('nombre')?.invalid && (formulario.get('nombre')?.dirty ||
+        formulario.get('nombre')?.touched)) {
+        <mat-error>Campo requerido</mat-error>
+        }
+    </mat-form-field>
+
+    <!--Botones de Guardar y Cancelar-->
+    <div class="flex justify-end mt-3 gap-2">
+        <button class="px-2 py-1 text-white bg-p1-700 hover:bg-p1-800 rounded shadow-lg" type="button"
+            (click)="dialogRef.close()">Cancelar</button>
+        <button class="px-2 py-1 text-white bg-p1-700 hover:bg-p1-800 rounded shadow-lg" type="submit">Guardar</button>
+    </div>
+</form>

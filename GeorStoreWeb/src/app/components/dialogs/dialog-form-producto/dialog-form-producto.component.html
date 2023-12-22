@@ -1,0 +1,80 @@
+<form [formGroup]="formulario" class="flex flex-col gap-1 py-8 px-6" (submit)="save()">
+
+    <!--Titulo-->
+    <h1 class="text-2xl font-semibold text-center mb-2">@if (producto) {Editar} @else {Nuevo} Producto</h1>
+
+    <mat-form-field>
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="codigo">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" required>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="descrip">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Precio</mat-label>
+        <input matInput formControlName="precio" required>
+    </mat-form-field>
+
+
+    <!-- Categoria -->
+    <mat-form-field>
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="id_categoria">
+            @for (item of categoriaService.listCategoria(); track $index) {
+            <mat-option [value]="item.id_categoria">
+                {{item.nombre | uppercase}}
+            </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Color -->
+    <mat-form-field>
+        <mat-label>Color</mat-label>
+        <mat-select formControlName="id_color">
+            @for (item of colorService.listColor(); track $index) {
+            <mat-option [value]="item.id_color">
+                {{item.nombre | uppercase}}
+            </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Marca -->
+    <mat-form-field>
+        <mat-label>Marca</mat-label>
+        <mat-select formControlName="id_marca">
+            @for (item of marcaService.listMarca(); track $index) {
+            <mat-option [value]="item.id_marca">
+                {{item.nombre | uppercase}}
+            </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Talla -->
+    <mat-form-field>
+        <mat-label>Talla</mat-label>
+        <mat-select formControlName="id_talla" required>
+            @for (item of tallaService.listTallas(); track $index) {
+            <mat-option [value]="item.id_talla">
+                {{item.nombre | uppercase}}
+            </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <div class="flex justify-end items-center gap-2">
+        <button mat-raised-button color="secondary" class="w-28" (click)="closeDialog()">Cerrar</button>
+        <button mat-raised-button color="primary" class="w-28" type="submit">Guardar</button>
+    </div>
+
+</form>

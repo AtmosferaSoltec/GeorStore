@@ -1,0 +1,29 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer #drawer mode="over">
+        <div class="flex flex-col">
+            @for (item of dataDrawer; track $index) {
+            <button class="w-48 flex flex-row gap-2 items-center py-2 ps-4 cursor-pointer hover:bg-gray-100"
+                (click)="selectItemDrawer(item.route)">
+                <mat-icon>{{item.icon}}</mat-icon>
+                {{item.name}}
+            </button>
+            }
+            <button class="w-48 flex flex-row gap-2 items-center py-2 ps-4 cursor-pointer hover:bg-gray-100"
+                (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Cerrar sesíon
+            </button>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <mat-toolbar color="primary">
+            <button mat-icon-button (click)="openDrawer()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="text-xl font-medium">GeorStore</span>
+        </mat-toolbar>
+
+        <router-outlet></router-outlet>
+
+    </mat-drawer-content>
+</mat-drawer-container>
