@@ -1,0 +1,44 @@
+<div>
+    <h1>Agregar Producto</h1>
+    <table class="w-full text-sm text-start text-textos">
+        <thead class="text-sm text-textos uppercase border-b text-left">
+            <tr>
+                <th scope="col" class="px-6 py-3">Producto</th>
+                <th scope="col" class="px-6 py-3">Cantidad</th>
+                <th scope="col" class="px-6 py-3">Precio U.</th>
+                <th scope="col" class="px-6 py-3">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(false){
+            <tr class="bg-white border-b">
+                <td colspan="4" class="py-6">
+                    <div class="flex justify-center items-center">
+                        <div class="loader"></div>
+                    </div>
+                </td>
+            </tr>
+            }@else {
+            @for (item of listProductos(); track $index) {
+            <tr class="bg-white border-b">
+                <td class="px-6 py-2">
+                    {{item.nombre | formatTexto}}<br>
+                    {{item.codigo | uppercase}}
+                </td>
+                <td class="px-6 py-2">S/{{item.precio | number:'1.2-2'}}</td>
+            </tr>
+            } @empty {
+            <tr class="bg-white border-b">
+                <td colspan="4" class="py-8">
+                    <div class="flex flew-row items-center justify-center">
+                        <mat-icon>hourglass_empty</mat-icon>
+                        Sin Datos
+                    </div>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+
+</div>

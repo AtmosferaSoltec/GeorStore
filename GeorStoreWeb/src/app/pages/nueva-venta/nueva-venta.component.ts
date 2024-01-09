@@ -1,68 +1,120 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { Producto } from '../../interfaces/producto';
+import { MetodoPagoService } from '../../services/metodo-pago.service';
+import { ProductoService } from '../../services/producto.service';
+import { VentaService } from '../../services/venta.service';
+import { FormatTextoPipe } from "../../pipes/format-texto.pipe";
+import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBuscarProductoComponent } from '../../components/dialogs/dialog-buscar-producto/dialog-buscar-producto.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-nueva-venta',
   standalone: true,
-  imports: [MatInputModule, MatAutocompleteModule, MatFormFieldModule,
-    ReactiveFormsModule, MatIconModule, AutocompleteComponent],
   templateUrl: './nueva-venta.component.html',
   styleUrl: './nueva-venta.component.scss',
-  animations: [
-    trigger('openClose', [
-      state('open', style({
-        backgroundColor: '#d1d1d1'
-      })),
-      state('closed', style({
-        height: '0px'
-      })),
-      transition('open => closed', [
-        animate('0.2s')
-      ]),
-      transition('closed => open', [
-        animate('0.2s')
-      ]),
-    ]),
-  ],
+  imports: [CommonModule, MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatButtonModule,
+    ReactiveFormsModule, MatIconModule, FormatTextoPipe]
 })
 export class NuevaVentaComponent {
-  isOpen = true;
+
+  productoService = inject(ProductoService)
+  metodoPagoService = inject(MetodoPagoService)
+  ventaService = inject(VentaService)
+  dialog = inject(MatDialog)
+  router = inject(Router)
 
 
-  cl(item: string) {
-    this.list2 = []
-    this.producto.setValue(item)
+  id_metodoPago = new FormControl('')
+
+  listEncontrados = signal<Producto[]>([])
+  listProductos = signal<any[]>([])
+
+
+  openDialog() {
+    const ref = this.dialog.open(DialogBuscarProductoComponent)
+
+    ref.afterClosed().subscribe({
+      next: (res) => {
+
+      },
+      error: (err) => {
+        alert(err.message);
+        console.log(err);
+      }
+    })
   }
 
-  list: string[] = [
-    'Leche',
-    'Yogurt',
-    'Huevo',
-    'Queso',
-    'Queso 1',
-    'Queso 2',
-    'Queso 3',
-  ]
 
-  list2: string[] = []
-
-  producto = new FormControl('');
-
-  buscar() {
-    const prod = this.producto.value
-    if (prod) {
-      this.list2 = this.list.filter(item => item.includes(prod))
-      console.log(this.list2);
-      console.log(prod);
-
-
+  restarCantidad(item: any) {
+    const index = this.listProductos().findIndex((producto: Producto) => producto.id_producto === item.id_producto)
+    if (index >= 0) {
+      const cantidad = this.listProductos()[index].cantidad
+      if (cantidad > 1) {
+        this.listProductos()[index].cantidad = cantidad - 1
+      }
     }
+  }
+
+  sumarCantidad(item: any) {
+    const index = this.listProductos().findIndex((producto: Producto) => producto.id_producto === item.id_producto)
+    if (index >= 0) {
+      const cantidad = this.listProductos()[index].cantidad
+      this.listProductos()[index].cantidad = cantidad + 1
+    }
+  }
+
+  quitarItem(item: any) {
+    const index = this.listProductos().findIndex((producto: Producto) => producto.id_producto === item.id_producto)
+    if (index >= 0) {
+      this.listProductos().splice(index, 1)
+    }
+  }
+
+  getTotal(): number {
+    return this.listProductos().reduce((total: number, item: any) => total + (item.cantidad * item.precio), 0)
+  }
+
+  guardar() {
+    const venta = {
+      precio_venta: this.getTotal(),
+      id_metodo_pago: this.id_metodoPago.value,
+      list_productos: [
+        ...this.listProductos().map((item: any) => ({
+          id_producto: item.id_producto,
+          cant_vendida: item.cantidad,
+          precio_un: item.precio,
+          sub_total: item.cantidad * item.precio
+        }))
+      ]
+    }
+    this.ventaService.insert(venta).subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess) {
+          Swal.fire({
+            title: 'Venta realizada',
+            text: res.mensaje,
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          })
+          this.router.navigate(['ventas'])
+        } else {
+          console.log(res.mensaje);
+          alert(res.mensaje)
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+
+    })
   }
 }

@@ -6,11 +6,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterOutlet } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatSidenavModule, MatIconModule, MatButtonModule, MatToolbarModule, MatListModule, RouterOutlet],
+  imports: [MatSidenavModule, MatIconModule, MatButtonModule, MatToolbarModule, MatListModule, RouterOutlet, MatTooltipModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -42,6 +43,10 @@ export class DashboardComponent {
       icon: 'admin_panel_settings'
     }
   ]
+
+  copiarToken() {
+    navigator.clipboard.writeText(localStorage.getItem('token') || '');
+  }
 
   toggleDrawer() {
     this.drawer.toggle();
